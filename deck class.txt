@@ -1,0 +1,72 @@
+void main () {
+var deck = new Deck();
+  
+  print(deck);
+	deck.removeCard("diamonds","ace");
+  print(deck);
+}
+
+class Deck {
+  // make an empty card list
+  List<Card> cards = [];
+  
+  Deck(){
+    // fill the deck with ranks and suit's
+    var ranks = ["ace","two","three"];
+    var suits = ["diamonds","hearts","clubs","spades"];
+  
+  
+  for (var suit in suits){
+    for (var rank in ranks){
+      var card = new Card(
+        // named parameters. will keep rank and value correct no matter what order it is passed in.
+        rank: rank, 
+        suit: suit);
+      cards.add(card);
+    }
+  }
+ }
+  
+  toString(){
+    // override the toString to get rank and suit from the card class
+    return cards.toString();
+  }
+  
+  shuffle(){
+    // use darts shuffle deck
+    cards.shuffle();
+  }
+  
+  cardsWithSuit(String suit){
+    // return cars of a suit
+   return cards.where((card) =>card.suit == suit); 
+  }
+  
+  Deal(int handSize){
+    // deal a hand of cards
+    var hand = cards.sublist(0,handSize);
+    
+    cards = cards.sublist(handSize,cards.length);
+    return hand;
+  }
+  
+    removeCard(String suit, String rank){
+      // remove a card from the deck
+    cards.removeWhere((card) => (card.suit == suit) && (card.rank == rank));
+  }
+}
+
+
+class Card {
+  // Card is a single instance of a card in the deck.
+  String suit;
+  String rank;
+  
+  // the {} around the values tell it its a named parameter.
+  Card({this.rank, this.suit}){}
+  
+  // return the suit and rank of the card.
+  toString(){
+    return rank+" of "+suit;
+  }
+}
